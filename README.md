@@ -97,7 +97,9 @@ Siehe hierzu auch [GitHub: `UV`](https://github.com/astral-sh/uv).
 
 `uv` installieren mit Python und `pip`:
 
-`python -m pip install uv`
+```
+python -m pip install uv
+```
 
 ### Source Code lokal installieren
 
@@ -117,32 +119,46 @@ oder [Git Download for Windows](https://git-scm.com/downloads/win)
 
 Lege eine `.venv`-Ordnerstruktur an (standardmäßig im Projektverzeichnis):
 
-`uv venv`
+```
+uv venv
+```
 
 ###  Abhängigkeiten installieren aus `pyproject.toml`
 
 `uv` erkennt die Abhängigkeiten automatisch im `pyproject.toml` unter 
 `[project.dependencies]` und installiert sie ins `.venv` Verzeichnis.
 
-`uv pip install -r pyproject.toml`
+```
+uv pip install -r pyproject.toml
+```
 
 ### (Optional) 🔒 Lock-Datei generieren (für reproduzierbare Builds)
 
 Erzeuge eine `uv.lock` Datei:
 
-`uv pip compile`
+```
+uv pip compile
+```
 
 Danach kann mit exakt gleichen Versionen gearbeiten werden über:
 
-`uv pip sync`
+```
+uv pip sync
+```
 
 ### Virtuelle Umgebung aktivieren
 
 Falls direkt mit python gearbeiten werden soll:
 
-`.venv\Scripts\activate.bat` (Windows)
+```
+.venv\Scripts\activate.bat
+```
+(Windows)
 
-`source .venv/bin/activate` (Linux)
+```
+source .venv/bin/activate
+```
+(Linux)
 
 ### Applikation starten
 
@@ -153,14 +169,18 @@ Nachdem dieses Python Projekt lokal verfügbar ist, kann die Applikation
 
 Im Projektverzeichnis kann folgender `uv` Befehl genutzt werden:
 
-`uv run src\main.py`
+```
+uv run src\main.py
+```
 
 **Alternative 2: `venv` und `Python`**
 
 Im Projektverzeichnis kann das *virtual Environment* aktiviert werden (siehe oben).
 Danach erfolgt die Ausführung im Projektverzeichnis über:
 
-`python src\main.py`
+```
+python src\main.py
+```
 
 **Alternative 3:** Bei Verwendung von Visual Studio Code als 
 Entwicklungsumgebung ist noch der Ort des virtual Environment bekannt zu geben.
@@ -185,7 +205,10 @@ vorzugehen:
 	
 	3.	Wähle den Interpreter aus, der zu dem Virtual Environment gehört:
 		
-		`.venv/Scripts/python.exe` (bei Windows)
+		```
+		.venv/Scripts/python.exe
+		```
+		(bei Windows)
 
 3.	Datei ausführen mit dem richtigen Interpreter
 
