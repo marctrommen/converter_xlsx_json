@@ -5,10 +5,7 @@
 This module contains the global configuration for the application.
 It sets up the project directories, files and other constants.
 It also initializes the logging and locale settings.
-
-As this file is just a template to store it in the repository, it needs to be 
-copied and renamed to "config.py" befor running the application!
-"""
+This configuration is used throughout the application to ensure consistent settings."""
 
 import os
 import datetime
@@ -17,8 +14,12 @@ import locale
 import logging
 logger = logging.getLogger("myapp.configuration")
 
-def configuration():
-    """Global configuration of the application."""
+# -----------------------------------------------------------------------------
+def configuration() -> dict:
+    """Global configuration of the application.
+    The configuration is stored in a dictionary which is returned by the function.
+    It contains various settings such as project directories, file paths, 
+    and other constants."""
 
     logger.debug("global configuration started")
     config = {}
