@@ -1,7 +1,8 @@
 [project]
 name = "converter-xlsx-json"
 version = "0.1.0"
-description = "Add your description here"
+description = "The program reads all .xlsx files in a directory, processes only worksheets starting with SST_, and stores their content in an internal data structure. After optional data validations with error logging, the validated data is exported as a structured JSON file."
+authors = [{ name = "Marcus Trommen", email = "marcus.trommen@gmx.net" }]
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
