@@ -16,6 +16,7 @@ of the conversion process.
 """
 
 import config
+from app import Application
 
 import logging
 from logging_config import setup_logging
@@ -27,15 +28,16 @@ logger = logging.getLogger("myapp")
 # -----------------------------------------------------------------------------
 def main() -> None:
     """This main function initializes the application configuration, 
-    sets up logging. It serves as the entry point for the application.
-    
-    Application setup follows the IOC (Inversion of Control) principle."""
-    configuration = config.configuration()
+    sets up logging. It serves as a wrapper for the application."""
 
+    configuration = config.configuration()
+    application = Application(configuration)
+    exit_code = application.run()
+    logger.info("Application finished with exit code: %d", exit_code)
+    exit(exit_code)
+    
 
 # -----------------------------------------------------------------------------
 if __name__ == '__main__':
     logger.info("Application started.")
     main()
-    logger.info("Application finished")
-    exit(0)
