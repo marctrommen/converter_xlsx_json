@@ -132,7 +132,7 @@ uv venv
 uv pip install -r pyproject.toml
 ```
 
-### (Optional) 🔒 Lock-Datei generieren (für reproduzierbare Builds)
+### (Optional) Lock-Datei generieren (für reproduzierbare Builds)
 
 Erzeuge eine `uv.lock` Datei:
 
