@@ -8,8 +8,7 @@ It also initializes the logging and locale settings.
 This configuration is used throughout the application to ensure consistent settings."""
 
 import os
-import datetime
-import locale
+
 
 import logging
 logger = logging.getLogger("myapp.configuration")
@@ -23,20 +22,24 @@ def configuration() -> dict:
 
     logger.debug("global configuration started")
     config = {}
-    locale.setlocale(locale.LC_ALL, '')
-    config['GENERATOR_STARTED'] = datetime.datetime.now()
-    config['CURRENT_YEAR'] = config['GENERATOR_STARTED'].strftime('%Y')
-    config['GENERATED_DATETIME'] = config['GENERATOR_STARTED'].strftime('%Y%m%d %H%M%S')
-    config['GENERATED_DATETIME_HUMAN_READABLE'] = config['GENERATOR_STARTED'].strftime('%d.%m.%Y %H:%M:%S')
-
+    
+    # Set up project directories
     aPath = os.path.realpath(__file__)
     aPath = os.path.dirname(aPath)
     aPath = os.path.normpath(aPath)
     aPath = os.path.join(aPath, "..")
     aPath = os.path.normpath(aPath)
+
+    # Define the absolute paths for the project directories
     config["PROJECT_ROOT_DIR"] = aPath
     config["SRC_DIR"] = os.path.join( config["PROJECT_ROOT_DIR"], "src" )
     config["DATA_DIR"] = os.path.join( config["PROJECT_ROOT_DIR"], "data" )
+    config["JSON_DIR"] = os.path.join( config["PROJECT_ROOT_DIR"], "data" )
+    config["JSON_OUTPUT_FILE"] = os.path.join( config["JSON_DIR"], "output.json" )
+    config["TEST_DIR"] = os.path.join( config["PROJECT_ROOT_DIR"], "test" )
+    config["TEST_DATA_DIR"] = os.path.join( config["PROJECT_ROOT_DIR"], "test_data" )
+    config["FILE_EXTENSION_XLSX"] = ".xlsx"
+    config["WORKSHEET_PREFIX"] = "SST_"
 
     logger.debug("global configuration done")
     return config
