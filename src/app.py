@@ -3,7 +3,8 @@
 
 import os
 from excel_reader import ExcelReader
-import json
+from data_validator import DataValidator
+from json_writer import JsonWriter
 
 import logging
 logger = logging.getLogger("myapp.Application")
@@ -11,19 +12,24 @@ logger = logging.getLogger("myapp.Application")
 
 # -----------------------------------------------------------------------------
 class Application:
-    """This class is responsible for managing the application lifecycle and coordinating"""
+    """This class is responsible for managing the application lifecycle and 
+    coordinating the program's functionality."""
 
 
     # -----------------------------------------------------------------------------
     def __init__(self, 
                  configuration: dict,
-                 excel_reader: ExcelReader) -> None:
+                 excel_reader: ExcelReader,
+                 data_validator: DataValidator,
+                 json_writer: JsonWriter) -> None:
         """Initialize the Application with the given configuration."""
 
         self.exit_code = 0
 
         if ((configuration is None) or (not isinstance(configuration, dict)) or
-            (excel_reader is None) or (not isinstance(excel_reader, ExcelReader))):
+            (excel_reader is None) or (not isinstance(excel_reader, ExcelReader)) or
+            (data_validator is None) or (not isinstance(data_validator, DataValidator)) or
+            (json_writer is None) or (not isinstance(json_writer, JsonWriter))):
             self.exit_code = 1
             logger.error("Invalid configuration or ExcelReader instance")
 
@@ -31,6 +37,8 @@ class Application:
         if self.exit_code == 0:
             self.data["CONFIG"] = configuration
             self.excel_reader = excel_reader
+            self.data_validator = data_validator
+            self.json_writer = json_writer
 
         logger.debug("Application initialized with configuration")
     
@@ -61,7 +69,7 @@ class Application:
             self._validate_data()
 
         if self.exit_code == 0:
-            self._export_to_json()
+            self._persist_data()
         
         return self.exit_code
 
@@ -119,7 +127,7 @@ class Application:
             logger.debug("Reading Excel file: %s", file_path)
 
             if self.exit_code == 0:
-                self.excel_reader.read_excel_file(
+                self.exit_code = self.excel_reader.read_excel_file(
                     excel_file_path=file_path,
                     worksheet_prefix=self.data["CONFIG"]["WORKSHEET_PREFIX"],
                     excel_data=self.data["EXCEL_DATA"]
@@ -131,30 +139,21 @@ class Application:
         This method should implement the validation logic and set self.exit_code accordingly."""
         logger.debug("Validating data")
 
-        # If validation fails, set self.exit_code to 20
         if not self.data["EXCEL_DATA"]:
             logger.error("No data found in Excel files")
             self.exit_code = 20
-            return
         
-        for worksheet_id, worksheet_data in self.data["EXCEL_DATA"].items():
-            logger.debug("Validating worksheet: %s", worksheet_id)
+        if self.exit_code == 0:
+            self.exit_code = self.data_validator.validate_data(self.data["EXCEL_DATA"])
 
-            if not worksheet_data:
-                logger.error("Worksheet '%s' is empty", worksheet_id)
-                self.exit_code = 20
-                return
             
     # -----------------------------------------------------------------------------
-    def _export_to_json(self) -> None:
-        """Export the validated data to a JSON file.
-        This method should implement the export logic and set self.exit_code accordingly."""
-        logger.debug("Exporting data to JSON")
+    def _persist_data(self) -> None:
+        """Persist the validated data, e.g. to a JSON file.
+        It calls a service class to persist the data. 
+        The self.exit_code is set accordingly."""
+        logger.debug("Persisting data to JSON file")
 
-        # Serializing json
-        json_data = json.dumps(self.data["EXCEL_DATA"], indent=4, ensure_ascii=False)
-        print(json_data)
-        
-        file_name = self.data["CONFIG"]["JSON_OUTPUT_FILE"]
-        with open(file_name, "w", encoding="utf-8") as outfile:
-            outfile.write(json_data)
+        self.exit_code = self.json_writer.persist_data(file_path=self.data["CONFIG"]["JSON_OUTPUT_FILE"],
+                                                       data=self.data["EXCEL_DATA"])
+

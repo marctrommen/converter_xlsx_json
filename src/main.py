@@ -27,6 +27,8 @@ supported error codes:
 import config
 from app import Application
 from excel_reader import ExcelReader
+from data_validator import DataValidator
+from json_writer import JsonWriter
 
 import logging
 from logging_config import setup_logging
@@ -40,14 +42,26 @@ def main() -> None:
     """This main function initializes the application configuration, 
     sets up logging. It serves as a wrapper for the application.
     
-    IOC (Inversion of Control) is used to inject dependencies into the Application class."""
+    The principle of IOC (Inversion of Control) is used to inject dependencies
+    into the Application class."""
 
     configuration = config.configuration()
     excel_reader = ExcelReader()
+    data_validator = DataValidator()
+    json_writer = JsonWriter()
+
     application = Application(configuration=configuration,
-                              excel_reader=excel_reader)
+                              excel_reader=excel_reader,
+                              data_validator=data_validator,
+                              json_writer=json_writer)
+    
     exit_code = application.run()
-    logger.info("Application finished with exit code: %d", exit_code)
+    
+    if exit_code == 0:
+        logger.info("Application finished successfully.")
+    else:
+        logger.error("Application finished with exit code: %d", exit_code)
+    
     exit(exit_code)
     
 
