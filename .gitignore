@@ -14,3 +14,6 @@ app.log
 
 # uv lock
 uv.lock
+
+# generated files
+data/*.json
