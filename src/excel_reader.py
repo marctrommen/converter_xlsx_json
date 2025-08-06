@@ -18,34 +18,42 @@ class ExcelReader:
         """Initialize the ExcelReader."""
         
         logger.debug("ExcelReader initialized")
+        self.error_code = 0
 
 
     # -----------------------------------------------------------------------------
     def read_excel_file(self, 
                         excel_file_path: str, 
                         worksheet_prefix: str, 
-                        excel_data: dict) -> None:
+                        excel_data: dict) -> int:
         """Read from an Excel workbook located by 'excel_file_path'.
          Iterates through all worksheets to filter them by name, starting 
-         with 'worksheet_prefix'. Reads all data fields and stores them in 'excel_data'."""
+         with 'worksheet_prefix'. Reads all data fields and stores them in 'excel_data'.
+         Returns 0 on success, otherwise returns an error code."""
         
         logger.debug("Reading Excel file: %s", excel_file_path)
+
+        self.error_code = 0
+
         try:
             workbook = openpyxl.load_workbook(filename=excel_file_path, read_only=True)
         except Exception as e:
             logger.error("Error reading Excel file '%s': %s", excel_file_path, e)
-            return
+            self.error_code = 11
         
-        for sheet_name in workbook.sheetnames:
-            if sheet_name.startswith(worksheet_prefix):
-                logger.debug("Processing worksheet: %s", sheet_name)
+        if self.error_code == 0:
+            for sheet_name in workbook.sheetnames:
+                if sheet_name.startswith(worksheet_prefix):
+                    logger.debug("Processing worksheet: %s", sheet_name)
 
-                worksheet = workbook[sheet_name]
-                worksheet_data = {}
-                worksheet_id = f"{excel_file_path}:{sheet_name}"
+                    worksheet = workbook[sheet_name]
+                    worksheet_data = {}
+                    worksheet_id = f"{excel_file_path}:{sheet_name}"
 
-                self._read_data_from_worksheet(worksheet, worksheet_data)
-                excel_data[worksheet_id] = worksheet_data
+                    self._read_data_from_worksheet(worksheet, worksheet_data)
+                    excel_data[worksheet_id] = worksheet_data
+
+        return self.error_code
 
 
     # -----------------------------------------------------------------------------
