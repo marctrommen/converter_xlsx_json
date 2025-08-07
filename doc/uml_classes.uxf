@@ -1,0 +1,80 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>220</x><y>330</y><w>210</w><h>110</h></coordinates><panel_attributes>&lt;&lt;Wrapper&gt;&gt;
+main:main
+bg=light_gray
+--
+- logger: Logger
+- configuration: dict
+- application: Application
+--
++ main(): None</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>590</x><y>340</y><w>390</w><h>250</h></coordinates><panel_attributes>&lt;&lt;Application&gt;&gt;
+app:Application
+bg=orange
+--
+- error_code: int
+- logger: Logger
+- configuration: dict
+- excel_reader: ExcelReader
+- data_validator: DataValidator
+- json_writer: JsonWriter
+--
++ __init()__: None
++ run(): ErrorCode
+# _clean_up(): None
+# _get_all_files_from_folder(directory: str, file_extension: str): None
+# _read_excel_files(): None
+# _validate_data(): None
+# _persist_data(): None
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>400</y><w>190</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m2=1</panel_attributes><additional_attributes>10;10;170;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1190</x><y>340</y><w>500</w><h>130</h></coordinates><panel_attributes>&lt;&lt;Reader&gt;&gt;
+excel_reader:ExcelReader
+bg=cyan
+--
+- logger: Logger
+- error_code: int
+--
++ __init()__: None
++ read_excel_file(excel_file_path: str, worksheet_prefix: str, excel_data: dict): ErrorCode
+# _read_data_from_worksheet(worksheet: Worksheet, sheet_data: dict): None
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1190</x><y>220</y><w>210</w><h>100</h></coordinates><panel_attributes>&lt;&lt;Configuration&gt;&gt;
+config:configuration
+bg=yellow
+--
+- logger: Logger
+- config: dict
+--
++ configuration(): dict</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>270</y><w>790</w><h>140</h></coordinates><panel_attributes>lt=&lt;-
+m1=1</panel_attributes><additional_attributes>770;10;140;10;140;120;10;120</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1810</x><y>170</y><w>210</w><h>120</h></coordinates><panel_attributes>&lt;&lt;Logging&gt;&gt;
+Logging:Logger
+bg=yellow
+--
+--
++ getLogger(): Logger</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>190</y><w>1410</w><h>210</h></coordinates><panel_attributes>lt=&lt;-
+m1=1</panel_attributes><additional_attributes>1390;10;100;10;100;190;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>970</x><y>380</y><w>240</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m2=1</panel_attributes><additional_attributes>10;40;160;40;160;10;220;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1680</x><y>210</y><w>150</w><h>200</h></coordinates><panel_attributes>lt=&lt;-
+m1=1</panel_attributes><additional_attributes>130;10;30;10;30;180;10;180</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1190</x><y>490</y><w>500</w><h>130</h></coordinates><panel_attributes>&lt;&lt;Validator&gt;&gt;
+data_validator:DataValidator
+bg=cyan
+--
+- logger: Logger
+- error_code: int
+--
++ __init()__: None
++ validate_data(data: dict): ErrorCode
+# _validate_worksheet_data(worksheet_id: str, worksheet_data: dict): None
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>970</x><y>430</y><w>240</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m2=1</panel_attributes><additional_attributes>10;10;160;10;160;110;220;110</additional_attributes></element><element><id>Relation</id><coordinates><x>970</x><y>300</y><w>240</w><h>120</h></coordinates><panel_attributes>lt=&lt;-
+m1=1</panel_attributes><additional_attributes>220;10;130;10;130;100;10;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1190</x><y>640</y><w>500</w><h>120</h></coordinates><panel_attributes>&lt;&lt;Persistance&gt;&gt;
+json_writer:JsonWriter
+bg=cyan
+--
+- logger: Logger
+- error_code: int
+--
++ __init()__: None
++ persist_data(file_path: str, data: dict): ErrorCode
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>970</x><y>450</y><w>240</w><h>270</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m2=1</panel_attributes><additional_attributes>10;10;130;10;130;240;220;240</additional_attributes></element><element><id>Relation</id><coordinates><x>1680</x><y>230</y><w>150</w><h>330</h></coordinates><panel_attributes>lt=&lt;-
+m1=1</panel_attributes><additional_attributes>130;10;60;10;60;310;10;310</additional_attributes></element><element><id>Relation</id><coordinates><x>1680</x><y>250</y><w>150</w><h>460</h></coordinates><panel_attributes>lt=&lt;-
+m1=1</panel_attributes><additional_attributes>130;10;90;10;90;440;10;440</additional_attributes></element></diagram>
